@@ -100,5 +100,8 @@
   (interactive)
   (eaf-open (eaf-get-path-or-url) "airshare"))
 
+(setq eaf-airshare-module-path (concat (file-name-directory load-file-name) "buffer.py"))
+(add-to-list 'eaf-app-module-path-alist '("airshare" . eaf-airshare-module-path))
+
 (provide 'eaf-airshare)
 ;;; eaf-airshare ends here
