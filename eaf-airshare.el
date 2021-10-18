@@ -95,11 +95,6 @@
       (setq input-string current-symbol))
     (eaf-open input-string "airshare")))
 
-(defun eaf-share-path-or-url ()
-  "Share the current file path or web URL as QRCode."
-  (interactive)
-  (eaf-open (eaf-get-path-or-url) "airshare"))
-
 (setq eaf-airshare-module-path (concat (file-name-directory load-file-name) "buffer.py"))
 (add-to-list 'eaf-app-module-path-alist '("airshare" . eaf-airshare-module-path))
 
