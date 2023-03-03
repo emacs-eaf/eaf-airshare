@@ -24,6 +24,7 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QFont
 from PyQt6.QtWidgets import QWidget, QLabel, QVBoxLayout
 from core.buffer import Buffer
+from core.utils import get_emacs_theme_foreground, get_emacs_theme_background, interactive
 import qrcode
 
 class AppBuffer(Buffer):
@@ -31,6 +32,13 @@ class AppBuffer(Buffer):
         Buffer.__init__(self, buffer_id, url, arguments, False)
 
         self.add_widget(AirShareWidget(url, self.theme_foreground_color))
+
+    @interactive
+    def update_theme(self):
+        self.theme_foreground_color = get_emacs_theme_foreground()
+        self.theme_background_color = get_emacs_theme_background()
+
+        self.buffer_widget.change_color(self.theme_background_color, self.theme_foreground_color)
 
 class Image(qrcode.image.base.BaseImage):
     def __init__(self, border, width, box_size):
@@ -90,3 +98,8 @@ class AirShareWidget(QWidget):
         layout.addStretch()
 
         self.qrcode_label.setPixmap(qrcode.make(url, image_factory=Image).pixmap())
+
+    def change_color(self, background_color, foreground_color):
+        self.setStyleSheet("background-color: {};".format(background_color))
+        self.file_name_label.setStyleSheet("color: {}".format(foreground_color))
+        self.notify_label.setStyleSheet("color: {}".format(foreground_color))
